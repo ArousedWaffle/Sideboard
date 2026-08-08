@@ -760,17 +760,31 @@
   }
 
   async function findCards(query) {
-    const exactRes = await fetch(`https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent('name:"' + query + '"')}&orderBy=-set.releaseDate`);
-    if (exactRes.ok) {
-      const exactData = await exactRes.json();
-      if (exactData.data && exactData.data.length) return exactData.data;
+    // require every word to appear in the name field (implicit AND) — forgiving of
+    // partial names like "Pikachu VMAX" without relying on unsupported leading wildcards
+    const words = query.trim().split(/\s+/).filter(Boolean);
+    const nameQuery = words.map(w => `name:${w}`).join(' ');
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
+    let res;
+    try {
+      res = await fetch(
+        `https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent(nameQuery)}&orderBy=-set.releaseDate`,
+        { signal: controller.signal }
+      );
+    } catch (err) {
+      if (err.name === 'AbortError') throw new Error('timeout');
+      throw err;
+    } finally {
+      clearTimeout(timeout);
     }
 
-    const wildRes = await fetch(`https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent('name:*' + query + '*')}&orderBy=-set.releaseDate`);
-    if (!wildRes.ok) throw new Error('not found');
-    const wildData = await wildRes.json();
-    if (!wildData.data || !wildData.data.length) throw new Error('not found');
-    return wildData.data;
+    if (!res.ok) throw new Error('not found');
+    const data = await res.json();
+    if (!data.data || !data.data.length) throw new Error('not found');
+    return data.data;
   }
 
   async function fetchCardArt() {
@@ -789,7 +803,11 @@
       showPrint(cards[0]);
       buildPrintPicker(cards);
     } catch (err) {
-      setArtStatus(`No card art found for "${query}".`);
+      if (err.message === 'timeout') {
+        setArtStatus('The card database is being slow right now — try again in a moment.');
+      } else {
+        setArtStatus(`No card art found for "${query}".`);
+      }
       priceTag.hidden = true;
     } finally {
       artBtn.disabled = false;
