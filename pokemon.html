@@ -9,16 +9,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream: #FFFBF0;
-    --panel: #FFFFFF;
-    --ink: #1F2430;
-    --ink-soft: #545B6E;
-    --red: #E3350D;
-    --red-dark: #B02807;
-    --navy: #2A3990;
-    --gold: #F2B705;
-    --line: #1F2430;
-    --hair: rgba(31,36,48,0.12);
+    --cream: #12141C;
+    --panel: #1C2130;
+    --ink: #F3F1E7;
+    --ink-soft: #9AA0B4;
+    --red: #EE1515;
+    --red-dark: #9E0D0D;
+    --navy: #5B9BDB;
+    --gold: #FFCB05;
+    --line: #2B3142;
+    --hair: rgba(255,255,255,0.08);
   }
 
   * { box-sizing: border-box; }
@@ -61,7 +61,7 @@
     text-align: center;
     margin-bottom: 2.25rem;
     padding-bottom: 1.5rem;
-    border-bottom: 3px solid var(--line);
+    border-bottom: 3px solid var(--gold);
   }
 
   .eyebrow {
@@ -103,26 +103,35 @@
     margin: 0 0 1.4rem;
   }
 
-  /* --- pocket indicator row --- */
-  .pocket-row {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 1.1rem;
+  /* --- ball ring + shop indicator dots --- */
+  .ball-ring {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1;
+    opacity: 0.4;
   }
 
+  .ball-ring.inner {
+    stroke: var(--line);
+    opacity: 0.6;
+  }
+
+  .ball-body-top { fill: #EE1515; opacity: 1; }
+  .ball-body-bottom { fill: #F3F1E7; opacity: 1; }
+  .ball-band { fill: #16171C; }
+  .ball-button-ring { fill: none; stroke: #16171C; stroke-width: 3; }
+  .ball-button-core { fill: #F3F1E7; }
+
   .pocket-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
-    background: var(--cream);
-    border: 2px solid var(--hair);
-    transition: background 0.2s ease, border-color 0.2s ease;
+    fill: var(--panel);
+    stroke: var(--hair);
+    stroke-width: 1.5;
+    transition: fill 0.2s ease, filter 0.2s ease;
   }
 
   .pocket-dot.lit {
-    background: var(--gold);
-    border-color: var(--red-dark);
+    fill: var(--gold);
+    filter: drop-shadow(0 0 5px rgba(255,203,5,0.85));
   }
 
   .price-tag {
@@ -131,7 +140,7 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.88rem;
     font-weight: 500;
-    color: var(--red-dark);
+    color: var(--gold);
     text-decoration: none;
     margin: 0 0 0.5rem;
   }
@@ -146,16 +155,23 @@
     align-items: center;
     min-height: 285px;
     margin-bottom: 0.75rem;
+    position: relative;
   }
 
+  .ball-svg { width: 210px; height: 210px; }
+
   .card-art {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 204px;
     height: 285px;
     border-radius: 12px;
     object-fit: contain;
     background: var(--cream);
-    border: 3px solid var(--line);
-    box-shadow: 0 4px 0 var(--line);
+    border: 3px solid var(--gold);
+    box-shadow: 0 0 0 3px rgba(255,203,5,0.14), 0 8px 20px rgba(0,0,0,0.5);
     cursor: zoom-in;
   }
 
@@ -318,7 +334,7 @@
     transition: background 0.15s ease;
   }
 
-  button.add-btn:hover { background: rgba(42,57,144,0.08); }
+  button.add-btn:hover { background: rgba(91,155,219,0.12); }
 
   .empty-note {
     font-style: italic;
@@ -390,7 +406,7 @@
     font-size: 0.72rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--red-dark);
+    color: var(--red);
     text-decoration: none;
     border: 2px solid var(--red);
     border-radius: 6px;
@@ -399,7 +415,7 @@
     transition: background 0.15s ease;
   }
 
-  a.cart-tab:hover { background: rgba(227,53,13,0.08); }
+  a.cart-tab:hover { background: rgba(238,21,21,0.12); }
 
   ul.item-list { list-style: none; margin: 0 0 0.7rem; padding: 0; }
 
@@ -424,7 +440,7 @@
     padding: 0.1rem 0.3rem;
   }
 
-  .remove-btn:hover { color: var(--red-dark); }
+  .remove-btn:hover { color: #FF6B5C; }
 
   footer {
     text-align: center;
@@ -456,10 +472,18 @@
   <section class="panel" aria-labelledby="search-title">
     <p class="panel-title" id="search-title">Card lookup</p>
 
-    <div class="pocket-row" id="pocketRow" aria-hidden="true"></div>
-
     <a class="price-tag" id="priceTag" href="#" target="_blank" rel="noopener" hidden></a>
     <div class="pocket-wrap">
+      <svg class="ball-svg" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="ball-ring" cx="100" cy="100" r="88"></circle>
+        <circle class="ball-ring inner" cx="100" cy="100" r="70"></circle>
+        <path class="ball-body-top" d="M100 38 A62 62 0 0 1 162 100 L38 100 A62 62 0 0 1 100 38 Z"></path>
+        <path class="ball-body-bottom" d="M100 162 A62 62 0 0 1 38 100 L162 100 A62 62 0 0 1 100 162 Z"></path>
+        <rect class="ball-band" x="38" y="94" width="124" height="12"></rect>
+        <circle class="ball-button-core" cx="100" cy="100" r="14"></circle>
+        <circle class="ball-button-ring" cx="100" cy="100" r="14"></circle>
+        <g id="pocketGroup"></g>
+      </svg>
       <img id="cardArt" class="card-art" alt="" hidden>
     </div>
     <p class="art-status" id="artStatus" hidden></p>
@@ -532,13 +556,20 @@
     shopSelect.appendChild(opt);
   });
 
-  // pocket indicator dots
-  const pocketRow = document.getElementById('pocketRow');
+  // shop indicator dots, positioned around the ball ring
+  const pocketGroup = document.getElementById('pocketGroup');
   const pockets = [];
-  shops.forEach(() => {
-    const dot = document.createElement('div');
-    dot.className = 'pocket-dot';
-    pocketRow.appendChild(dot);
+  const POCKET_R = 79;
+  shops.forEach((shop, i) => {
+    const angle = (Math.PI * 2 * i) / shops.length - Math.PI / 2;
+    const cx = 100 + POCKET_R * Math.cos(angle);
+    const cy = 100 + POCKET_R * Math.sin(angle);
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', cx);
+    dot.setAttribute('cy', cy);
+    dot.setAttribute('r', 7);
+    dot.setAttribute('class', 'pocket-dot');
+    pocketGroup.appendChild(dot);
     pockets.push(dot);
   });
 
@@ -674,7 +705,7 @@
 
   castBtn.addEventListener('click', searchShops);
 
-  // --- card art lookup (pokemontcg.io) ---
+  // --- card art lookup (tcgdex.dev, no API key required) ---
   const artBtn = document.getElementById('artBtn');
   const cardArt = document.getElementById('cardArt');
   const artStatus = document.getElementById('artStatus');
@@ -695,28 +726,22 @@
   }
 
   function lowestPrice(card) {
+    const tp = card.pricing && card.pricing.tcgplayer;
+    if (!tp) return null;
     const values = [];
-    const tp = card.tcgplayer && card.tcgplayer.prices;
-    if (tp) {
-      Object.values(tp).forEach(variant => {
-        const v = variant.market ?? variant.low;
+    Object.keys(tp).forEach(key => {
+      if (key === 'updated' || key === 'unit') return;
+      const variant = tp[key];
+      if (variant && typeof variant === 'object') {
+        const v = variant.marketPrice ?? variant.lowPrice;
         if (typeof v === 'number') values.push(v);
-      });
-    }
-    if (!values.length) {
-      const cm = card.cardmarket && card.cardmarket.prices;
-      if (cm) {
-        [cm.averageSellPrice, cm.lowPrice].forEach(v => {
-          if (typeof v === 'number' && v > 0) values.push(v);
-        });
       }
-    }
-    if (!values.length) return null;
-    return Math.min(...values);
+    });
+    return values.length ? Math.min(...values) : null;
   }
 
   function priceLink(card) {
-    return (card.tcgplayer && card.tcgplayer.url) || (card.cardmarket && card.cardmarket.url) || '#';
+    return `https://www.tcgplayer.com/search/pokemon/product?q=${encodeURIComponent(card.name)}`;
   }
 
   function setPriceTag(card) {
@@ -727,10 +752,11 @@
   }
 
   function showPrint(card, thumbEl) {
-    if (!card.images || !card.images.large) return;
-    cardArt.src = card.images.large || card.images.small;
+    if (!card.image) return;
+    const fullSrc = `${card.image}/high.webp`;
+    cardArt.src = fullSrc;
     cardArt.alt = `${card.name} — ${card.set.name}`;
-    zoomSrc = card.images.large || card.images.small;
+    zoomSrc = fullSrc;
     cardArt.hidden = false;
     setArtStatus(null);
     setPriceTag(card);
@@ -740,19 +766,38 @@
     if (thumbEl) thumbEl.classList.add('active');
   }
 
-  function buildPrintPicker(cards) {
-    printPicker.innerHTML = '';
-    if (cards.length < 2) { printPicker.hidden = true; return; }
+  async function getCardDetail(id) {
+    const res = await fetch(`https://api.tcgdex.net/v2/en/cards/${encodeURIComponent(id)}`);
+    if (!res.ok) throw new Error('not found');
+    return res.json();
+  }
 
-    cards.forEach(card => {
-      if (!card.images || !card.images.small) return;
+  async function selectPrint(id, thumbEl) {
+    if (thumbEl) {
+      printPicker.querySelectorAll('.print-thumb').forEach(el => el.classList.remove('active'));
+      thumbEl.classList.add('active');
+    }
+    try {
+      const card = await getCardDetail(id);
+      showPrint(card, thumbEl);
+    } catch (err) {
+      setArtStatus('Could not load that printing — try another.');
+    }
+  }
+
+  function buildPrintPicker(briefCards) {
+    printPicker.innerHTML = '';
+    if (briefCards.length < 2) { printPicker.hidden = true; return; }
+
+    briefCards.forEach(brief => {
+      if (!brief.image) return;
       const thumb = document.createElement('img');
       thumb.className = 'print-thumb';
-      thumb.src = card.images.small;
-      thumb.alt = card.set.name;
-      thumb.title = `${card.set.name}${card.number ? ' #' + card.number : ''}`;
-      thumb.addEventListener('click', () => showPrint(card, thumb));
-      if (card.id === currentPrintId) thumb.classList.add('active');
+      thumb.src = `${brief.image}/low.webp`;
+      thumb.alt = brief.name;
+      thumb.title = brief.name;
+      thumb.addEventListener('click', () => selectPrint(brief.id, thumb));
+      if (brief.id === currentPrintId) thumb.classList.add('active');
       printPicker.appendChild(thumb);
     });
 
@@ -760,18 +805,13 @@
   }
 
   async function findCards(query) {
-    // require every word to appear in the name field (implicit AND) — forgiving of
-    // partial names like "Pikachu VMAX" without relying on unsupported leading wildcards
-    const words = query.trim().split(/\s+/).filter(Boolean);
-    const nameQuery = words.map(w => `name:${w}`).join(' ');
-
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
     let res;
     try {
       res = await fetch(
-        `https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent(nameQuery)}&orderBy=-set.releaseDate`,
+        `https://api.tcgdex.net/v2/en/cards?name=${encodeURIComponent(query)}`,
         { signal: controller.signal }
       );
     } catch (err) {
@@ -783,8 +823,8 @@
 
     if (!res.ok) throw new Error('not found');
     const data = await res.json();
-    if (!data.data || !data.data.length) throw new Error('not found');
-    return data.data;
+    if (!data || !data.length) throw new Error('not found');
+    return data;
   }
 
   async function fetchCardArt() {
@@ -799,9 +839,9 @@
     printPicker.innerHTML = '';
 
     try {
-      const cards = await findCards(query);
-      showPrint(cards[0]);
-      buildPrintPicker(cards);
+      const briefCards = await findCards(query);
+      await selectPrint(briefCards[0].id);
+      buildPrintPicker(briefCards);
     } catch (err) {
       if (err.message === 'timeout') {
         setArtStatus('The card database is being slow right now — try again in a moment.');
