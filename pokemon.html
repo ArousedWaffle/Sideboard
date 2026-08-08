@@ -490,11 +490,11 @@
     <div class="print-picker" id="printPicker" hidden></div>
 
     <form id="searchForm">
-      <input type="text" id="query" placeholder="Pikachu VMAX" required autocomplete="off">
+      <input type="text" id="query" placeholder="Pikachu 14/30" required autocomplete="off">
       <button type="submit" class="art-btn" id="artBtn">Show card art</button>
       <button type="button" class="cast-btn" id="castBtn">Search shops</button>
     </form>
-    <p class="hint">Opens a tab per shop — allow pop-ups from this page if any are blocked.</p>
+    <p class="hint">Opens a tab per shop — allow pop-ups from this page if any are blocked. Add a card number (like 14/30) to match an exact printing.</p>
   </section>
 
   <section class="panel" aria-labelledby="add-title">
@@ -767,7 +767,22 @@
   }
 
   async function getCardDetail(id) {
-    const res = await fetch(`https://api.tcgdex.net/v2/en/cards/${encodeURIComponent(id)}`);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
+    let res;
+    try {
+      res = await fetch(
+        `https://api.tcgdex.net/v2/en/cards/${encodeURIComponent(id)}`,
+        { signal: controller.signal }
+      );
+    } catch (err) {
+      if (err.name === 'AbortError') throw new Error('timeout');
+      throw err;
+    } finally {
+      clearTimeout(timeout);
+    }
+
     if (!res.ok) throw new Error('not found');
     return res.json();
   }
@@ -781,7 +796,12 @@
       const card = await getCardDetail(id);
       showPrint(card, thumbEl);
     } catch (err) {
-      setArtStatus('Could not load that printing — try another.');
+      if (err.message === 'timeout') {
+        setArtStatus('The card database is being slow right now — try again in a moment.');
+      } else {
+        setArtStatus('Could not load that printing — try another.');
+      }
+      priceTag.hidden = true;
     }
   }
 
@@ -804,14 +824,29 @@
     printPicker.hidden = false;
   }
 
+  function parseQuery(raw) {
+    // pull a trailing card number off the end — "Pikachu 14/30" or "Pikachu 14"
+    const match = raw.match(/^(.*?)\s+(\d+)(?:\s*\/\s*\d+)?\s*$/);
+    if (match && match[1].trim()) {
+      return { name: match[1].trim(), localId: match[2] };
+    }
+    return { name: raw.trim(), localId: null };
+  }
+
+  function normalizeLocalId(id) {
+    return String(id).replace(/^0+(?=\d)/, '');
+  }
+
   async function findCards(query) {
+    const { name, localId } = parseQuery(query);
+
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
     let res;
     try {
       res = await fetch(
-        `https://api.tcgdex.net/v2/en/cards?name=${encodeURIComponent(query)}`,
+        `https://api.tcgdex.net/v2/en/cards?name=${encodeURIComponent(name)}`,
         { signal: controller.signal }
       );
     } catch (err) {
@@ -822,8 +857,15 @@
     }
 
     if (!res.ok) throw new Error('not found');
-    const data = await res.json();
+    let data = await res.json();
     if (!data || !data.length) throw new Error('not found');
+
+    if (localId) {
+      const target = normalizeLocalId(localId);
+      const narrowed = data.filter(c => normalizeLocalId(c.localId) === target);
+      if (narrowed.length) data = narrowed;
+    }
+
     return data;
   }
 
@@ -843,6 +885,7 @@
       await selectPrint(briefCards[0].id);
       buildPrintPicker(briefCards);
     } catch (err) {
+      console.error('Card art lookup failed:', err);
       if (err.message === 'timeout') {
         setArtStatus('The card database is being slow right now — try again in a moment.');
       } else {
