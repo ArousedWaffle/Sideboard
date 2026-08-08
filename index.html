@@ -835,6 +835,19 @@
     }
   }
 
+  async function findCard(query) {
+    // try a fuzzy exact-name match first (fast, precise)
+    const fuzzyRes = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(query)}`);
+    if (fuzzyRes.ok) return fuzzyRes.json();
+
+    // fall back to a broad search for partial names, then take the closest result
+    const searchRes = await fetch(`https://api.scryfall.com/cards/search?q=${encodeURIComponent(query)}&order=relevance&unique=cards`);
+    if (!searchRes.ok) throw new Error('not found');
+    const searchData = await searchRes.json();
+    if (!searchData.data || !searchData.data.length) throw new Error('not found');
+    return searchData.data[0];
+  }
+
   async function fetchCardArt() {
     const query = document.getElementById('query').value.trim();
     if (!query) { setArtStatus('Enter a card name first.'); return; }
@@ -847,9 +860,7 @@
     printPicker.innerHTML = '';
 
     try {
-      const res = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(query)}`);
-      if (!res.ok) throw new Error('not found');
-      const data = await res.json();
+      const data = await findCard(query);
 
       const faceImages = faceImagesFor(data);
       if (!faceImages) throw new Error('no image');
