@@ -752,7 +752,11 @@
   }
 
   function showPrint(card, thumbEl) {
-    if (!card.image) return;
+    if (!card.image) {
+      setArtStatus(`No image available for "${card.name}" (${card.set.name}).`);
+      priceTag.hidden = true;
+      return;
+    }
     const fullSrc = `${card.image}/high.webp`;
     cardArt.src = fullSrc;
     cardArt.alt = `${card.name} — ${card.set.name}`;
@@ -863,7 +867,10 @@
     if (localId) {
       const target = normalizeLocalId(localId);
       const narrowed = data.filter(c => normalizeLocalId(c.localId) === target);
-      if (narrowed.length) data = narrowed;
+      if (narrowed.length) {
+        const withImages = narrowed.filter(c => c.image);
+        data = withImages.length ? withImages : narrowed;
+      }
     }
 
     return data;
