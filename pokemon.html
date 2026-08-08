@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Sideboard — Search Six Shops</title>
+<title>The Binder — Search Six Shops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink: #17131f;
-    --ink-2: #221c30;
-    --ink-3: #2b2440;
-    --parchment: #f1e9d2;
-    --parchment-dim: #d9cfae;
-    --gold: #c9a24b;
-    --gold-bright: #e6c369;
-    --ember: #b5482f;
-    --ink-text: #2a2233;
-    --hair: rgba(201,162,75,0.22);
+    --cream: #FFFBF0;
+    --panel: #FFFFFF;
+    --ink: #1F2430;
+    --ink-soft: #545B6E;
+    --red: #E3350D;
+    --red-dark: #B02807;
+    --navy: #2A3990;
+    --gold: #F2B705;
+    --line: #1F2430;
+    --hair: rgba(31,36,48,0.12);
   }
 
   * { box-sizing: border-box; }
@@ -26,25 +26,19 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: var(--ink);
-    color: var(--parchment);
-    font-family: 'EB Garamond', serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Nunito Sans', sans-serif;
     min-height: 100vh;
   }
 
   body {
-    background-image:
-      radial-gradient(circle at 20% 10%, rgba(201,162,75,0.05), transparent 45%),
-      radial-gradient(circle at 85% 80%, rgba(181,72,47,0.05), transparent 45%);
     padding: 4vw 5vw 6vw;
     display: flex;
     justify-content: center;
   }
 
-  .page {
-    width: 100%;
-    max-width: 760px;
-  }
+  .page { width: 100%; max-width: 760px; }
 
   .top-nav {
     text-align: center;
@@ -56,113 +50,112 @@
     font-size: 0.72rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--parchment-dim);
+    color: var(--ink-soft);
     text-decoration: none;
-    border-bottom: 1px dashed var(--parchment-dim);
-    opacity: 0.85;
+    border-bottom: 1px dashed var(--ink-soft);
   }
 
-  .top-nav a:hover { color: var(--gold-bright); border-color: var(--gold-bright); opacity: 1; }
+  .top-nav a:hover { color: var(--red); border-color: var(--red); }
 
   header.masthead {
     text-align: center;
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.75rem;
-    border-bottom: 1px solid var(--hair);
+    margin-bottom: 2.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 3px solid var(--line);
   }
 
   .eyebrow {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--red);
     margin: 0 0 0.6rem;
   }
 
   h1 {
-    font-family: 'Cinzel', serif;
-    font-weight: 600;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
     font-size: clamp(2rem, 5vw, 2.9rem);
-    letter-spacing: 0.03em;
     margin: 0 0 0.5rem;
-    color: var(--parchment);
-    text-shadow: 0 0 24px rgba(201,162,75,0.18);
+    color: var(--ink);
   }
 
   .subhead {
-    font-style: italic;
-    font-size: 1.05rem;
-    color: var(--parchment-dim);
+    font-size: 1.02rem;
+    color: var(--ink-soft);
     margin: 0;
   }
 
   section.panel {
-    background: linear-gradient(180deg, var(--ink-2), var(--ink-3));
-    border: 1px solid var(--hair);
-    border-radius: 6px;
-    padding: 2.25rem;
+    background: var(--panel);
+    border: 3px solid var(--line);
+    border-radius: 14px;
+    padding: 2rem;
     margin-bottom: 1.75rem;
-    position: relative;
-  }
-
-  section.panel::before {
-    content: "";
-    position: absolute;
-    inset: 6px;
-    border: 1px solid rgba(201,162,75,0.09);
-    border-radius: 3px;
-    pointer-events: none;
   }
 
   .panel-title {
-    font-family: 'Cinzel', serif;
-    font-weight: 500;
-    font-size: 1.05rem;
-    letter-spacing: 0.06em;
-    color: var(--gold-bright);
-    margin: 0 0 1.5rem;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin: 0 0 1.4rem;
   }
 
-  /* --- casting circle --- */
+  /* --- pocket indicator row --- */
+  .pocket-row {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .pocket-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: var(--cream);
+    border: 2px solid var(--hair);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .pocket-dot.lit {
+    background: var(--gold);
+    border-color: var(--red-dark);
+  }
+
   .price-tag {
     display: block;
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    letter-spacing: 0.03em;
-    color: var(--gold-bright);
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--red-dark);
     text-decoration: none;
-    margin: 0 0 0.35rem;
+    margin: 0 0 0.5rem;
   }
 
   .price-tag:hover { text-decoration: underline; }
-
   .price-tag[hidden] { display: none; }
 
-  .circle-wrap {
+  /* --- card display --- */
+  .pocket-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 285px;
     margin-bottom: 0.75rem;
-    position: relative;
   }
 
-  .circle-svg { width: 210px; height: 210px; }
-
   .card-art {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 204px;
     height: 285px;
-    border-radius: 9px;
+    border-radius: 12px;
     object-fit: contain;
-    background: var(--ink-2);
-    border: 2px solid var(--gold-bright);
-    box-shadow: 0 0 22px rgba(0,0,0,0.55);
+    background: var(--cream);
+    border: 3px solid var(--line);
+    box-shadow: 0 4px 0 var(--line);
     cursor: zoom-in;
   }
 
@@ -170,10 +163,11 @@
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    color: var(--parchment-dim);
-    opacity: 0.75;
+    color: var(--ink-soft);
     margin: 0 0 1.25rem;
   }
+
+  .art-status[hidden] { display: none; }
 
   .print-picker {
     display: flex;
@@ -191,23 +185,19 @@
     height: 61px;
     border-radius: 5px;
     object-fit: cover;
-    border: 1.5px solid rgba(201,162,75,0.35);
+    border: 2px solid var(--hair);
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.15s ease, border-color 0.15s ease;
   }
 
   .print-thumb:hover { opacity: 1; }
-
-  .print-thumb.active {
-    opacity: 1;
-    border-color: var(--gold-bright);
-  }
+  .print-thumb.active { opacity: 1; border-color: var(--red); }
 
   .art-lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(10,8,15,0.9);
+    background: rgba(31,36,48,0.85);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -222,54 +212,7 @@
     max-width: min(90vw, 480px);
     max-height: 90vh;
     border-radius: 12px;
-    border: 2px solid var(--gold-bright);
-    box-shadow: 0 0 40px rgba(0,0,0,0.6);
-  }
-
-  button.art-btn {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    background: transparent;
-    color: var(--gold-bright);
-    border: 1px solid var(--gold);
-    border-radius: 3px;
-    padding: 0 1.3rem;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
-
-  button.art-btn:hover { background: rgba(201,162,75,0.14); }
-  button.art-btn:disabled { opacity: 0.6; cursor: default; }
-
-  .rune-ring {
-    fill: none;
-    stroke: rgba(201,162,75,0.25);
-    stroke-width: 1;
-  }
-
-  .rune-ring.inner {
-    stroke: rgba(201,162,75,0.14);
-  }
-
-  .node-dot {
-    fill: var(--ink-2);
-    stroke: var(--gold);
-    stroke-width: 1.5;
-    transition: fill 0.25s ease, filter 0.25s ease;
-  }
-
-  .node-dot.lit {
-    fill: var(--gold-bright);
-    filter: drop-shadow(0 0 6px rgba(230,195,105,0.9));
-  }
-
-  .center-mark {
-    fill: none;
-    stroke: var(--ember);
-    stroke-width: 1.2;
-    opacity: 0.55;
+    border: 4px solid var(--panel);
   }
 
   form {
@@ -280,102 +223,66 @@
 
   input[type="text"] {
     flex: 1 1 260px;
-    background: var(--parchment);
-    color: var(--ink-text);
-    border: 1px solid var(--gold);
-    border-radius: 3px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 2px solid var(--line);
+    border-radius: 8px;
     padding: 0.85rem 1rem;
-    font-family: 'EB Garamond', serif;
-    font-size: 1.05rem;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1.02rem;
   }
 
-  input[type="text"]::placeholder { color: #7a7160; font-style: italic; }
+  input[type="text"]::placeholder { color: #9a9a8f; }
 
   input[type="text"]:focus,
   button:focus-visible,
   a.cart-tab:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(230,195,105,0.45);
+    box-shadow: 0 0 0 3px rgba(227,53,13,0.3);
   }
+
+  button.art-btn {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: var(--red);
+    color: #fff;
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 3px 0 var(--line);
+    transition: transform 0.1s ease;
+  }
+
+  button.art-btn:hover { filter: brightness(1.05); }
+  button.art-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
+  button.art-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
 
   button.cast-btn {
-    font-family: 'Cinzel', serif;
+    font-family: 'Baloo 2', sans-serif;
     font-weight: 600;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
-    color: #241a05;
-    border: none;
-    border-radius: 3px;
-    padding: 0 1.6rem;
+    font-size: 0.9rem;
+    background: var(--navy);
+    color: #fff;
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    padding: 0 1.4rem;
     cursor: pointer;
-    transition: transform 0.15s ease, filter 0.15s ease;
+    box-shadow: 0 3px 0 var(--line);
+    transition: transform 0.1s ease;
   }
 
-  button.cast-btn:hover { filter: brightness(1.08); }
-  button.cast-btn:active { transform: scale(0.97); }
+  button.cast-btn:hover { filter: brightness(1.1); }
+  button.cast-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
   button.cast-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
 
   .hint {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    color: var(--parchment-dim);
-    opacity: 0.7;
+    color: var(--ink-soft);
     margin: 0.9rem 0 0;
   }
-
-  /* --- ledger --- */
-  ul.ledger { list-style: none; margin: 0; padding: 0; }
-
-  .ledger-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid var(--hair);
-  }
-
-  .ledger-row:last-child { border-bottom: none; }
-
-  .sigil {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--ink);
-    flex-shrink: 0;
-  }
-
-  .shop-name {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.02rem;
-    color: var(--parchment);
-  }
-
-  a.cart-tab {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--gold-bright);
-    text-decoration: none;
-    border: 1px solid rgba(201,162,75,0.4);
-    border-radius: 3px;
-    padding: 0.4rem 0.75rem;
-    white-space: nowrap;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-
-  a.cart-tab:hover { background: rgba(201,162,75,0.14); }
 
   .add-row {
     display: flex;
@@ -387,36 +294,35 @@
   .add-row input[type="text"] { flex: 1 1 220px; }
 
   select#shopSelect {
-    background: var(--parchment);
-    color: var(--ink-text);
-    border: 1px solid var(--gold);
-    border-radius: 3px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 2px solid var(--line);
+    border-radius: 8px;
     padding: 0.85rem 0.75rem;
-    font-family: 'EB Garamond', serif;
-    font-size: 1.02rem;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem;
     flex: 1 1 180px;
   }
 
   button.add-btn {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.78rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     background: transparent;
-    color: var(--gold-bright);
-    border: 1px solid var(--gold);
-    border-radius: 3px;
-    padding: 0 1.4rem;
+    color: var(--navy);
+    border: 2px solid var(--navy);
+    border-radius: 8px;
+    padding: 0 1.3rem;
     cursor: pointer;
     transition: background 0.15s ease;
   }
 
-  button.add-btn:hover { background: rgba(201,162,75,0.14); }
+  button.add-btn:hover { background: rgba(42,57,144,0.08); }
 
   .empty-note {
     font-style: italic;
-    color: var(--parchment-dim);
-    opacity: 0.7;
+    color: var(--ink-soft);
     font-size: 0.95rem;
     margin: 0.5rem 0 0;
   }
@@ -426,16 +332,12 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.4rem;
   }
 
   .ledger-head .panel-title { margin: 0; }
 
-  .ledger-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-shrink: 0;
-  }
+  .ledger-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
 
   .shop-group {
     border-bottom: 1px solid var(--hair);
@@ -456,17 +358,48 @@
     display: flex;
     align-items: center;
     gap: 0.65rem;
-    font-size: 1.02rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .sigil {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
   }
 
   .count-badge {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
     color: var(--ink);
-    background: var(--gold-bright);
+    background: var(--gold);
     border-radius: 10px;
     padding: 0.1rem 0.5rem;
   }
+
+  a.cart-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--red-dark);
+    text-decoration: none;
+    border: 2px solid var(--red);
+    border-radius: 6px;
+    padding: 0.4rem 0.75rem;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+
+  a.cart-tab:hover { background: rgba(227,53,13,0.08); }
 
   ul.item-list { list-style: none; margin: 0 0 0.7rem; padding: 0; }
 
@@ -477,81 +410,73 @@
     gap: 0.75rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
-    color: var(--parchment-dim);
+    color: var(--ink-soft);
     padding: 0.3rem 0;
   }
 
   .remove-btn {
     background: none;
     border: none;
-    color: var(--ember);
+    color: var(--red);
     cursor: pointer;
     font-size: 0.95rem;
     line-height: 1;
     padding: 0.1rem 0.3rem;
   }
 
-  .remove-btn:hover { color: var(--gold-bright); }
+  .remove-btn:hover { color: var(--red-dark); }
 
   footer {
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
-    color: var(--parchment-dim);
-    opacity: 0.55;
+    color: var(--ink-soft);
+    opacity: 0.7;
     margin-top: 2rem;
   }
 
   @media (max-width: 480px) {
-    section.panel { padding: 1.5rem; }
+    section.panel { padding: 1.4rem; }
     form { flex-direction: column; }
     button.cast-btn, button.art-btn { padding: 0.85rem 1rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .node-dot { transition: none; }
   }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <p class="top-nav"><a href="pokemon.html">Switch to the Pokémon version</a></p>
+  <p class="top-nav"><a href="index.html">Switch to the Magic version</a></p>
 
   <header class="masthead">
-    <p class="eyebrow">Multiple Shops, One Incantation</p>
-    <h1>The Sideboard</h1>
-    <p class="subhead">Cast a single search across every shelf at once.</p>
+    <p class="eyebrow">Multiple Shops, One Search</p>
+    <h1>The Binder</h1>
+    <p class="subhead">Search every shop's shelves in one go.</p>
   </header>
 
   <section class="panel" aria-labelledby="search-title">
-    <p class="panel-title" id="search-title">Search circle</p>
+    <p class="panel-title" id="search-title">Card lookup</p>
+
+    <div class="pocket-row" id="pocketRow" aria-hidden="true"></div>
 
     <a class="price-tag" id="priceTag" href="#" target="_blank" rel="noopener" hidden></a>
-    <div class="circle-wrap">
-      <svg class="circle-svg" viewBox="0 0 200 200" aria-hidden="true">
-        <circle class="rune-ring" cx="100" cy="100" r="88"></circle>
-        <circle class="rune-ring inner" cx="100" cy="100" r="70"></circle>
-        <path class="center-mark" d="M100 60 L100 140 M60 100 L140 100"></path>
-        <g id="nodeGroup"></g>
-      </svg>
+    <div class="pocket-wrap">
       <img id="cardArt" class="card-art" alt="" hidden>
     </div>
     <p class="art-status" id="artStatus" hidden></p>
     <div class="print-picker" id="printPicker" hidden></div>
 
     <form id="searchForm">
-      <input type="text" id="query" placeholder="Sheoldred, the Apocalypse" required autocomplete="off">
+      <input type="text" id="query" placeholder="Pikachu VMAX" required autocomplete="off">
       <button type="submit" class="art-btn" id="artBtn">Show card art</button>
-      <button type="button" class="cast-btn" id="castBtn">Cast search</button>
+      <button type="button" class="cast-btn" id="castBtn">Search shops</button>
     </form>
     <p class="hint">Opens a tab per shop — allow pop-ups from this page if any are blocked.</p>
   </section>
 
   <section class="panel" aria-labelledby="add-title">
-    <p class="panel-title" id="add-title">Add to your want list</p>
+    <p class="panel-title" id="add-title">Add to your binder</p>
     <div class="add-row">
-      <input type="text" id="cardName" placeholder="Sheoldred, the Apocalypse" autocomplete="off">
+      <input type="text" id="cardName" placeholder="Pikachu VMAX" autocomplete="off">
       <select id="shopSelect"></select>
       <button type="button" class="add-btn" id="addBtn">Add card</button>
     </div>
@@ -560,10 +485,10 @@
 
   <section class="panel" aria-labelledby="ledger-title">
     <div class="ledger-head">
-      <p class="panel-title" id="ledger-title">Your ledger</p>
+      <p class="panel-title" id="ledger-title">Your binder</p>
       <div class="ledger-actions">
         <button type="button" class="add-btn" id="checkoutAllBtn">Checkout all</button>
-        <button type="button" class="add-btn" id="clearLedgerBtn">Clear ledger</button>
+        <button type="button" class="add-btn" id="clearLedgerBtn">Clear binder</button>
       </div>
     </div>
     <div id="ledgerGroups"></div>
@@ -578,23 +503,23 @@
 
 <script>
   const shops = [
-    { name: "Dragon's Eye Singles", initials: "DE", hue: "#c9a24b",
+    { name: "Dragon's Eye Singles", initials: "DE", hue: "#E3350D",
       search: q => `https://www.dragonseyesingles.com/products/search?q=${encodeURIComponent(q)}`,
       cart: "https://www.dragonseyesingles.com/checkout/cart" },
-    { name: "Hawk's Nest Gaming", initials: "HN", hue: "#3f7566",
+    { name: "Hawk's Nest Gaming", initials: "HN", hue: "#2A3990",
       search: q => `https://hawksnestgaming.tcgplayerpro.com/search/products?q=${encodeURIComponent(q)}`,
       cart: "https://cart.tcgplayer.com/shoppingcart?sf=5f72300f&ck=7ea621b626744eb18365ab87add13486" },
-    { name: "Super Games Inc", initials: "SG", hue: "#6b4e8e",
+    { name: "Super Games Inc", initials: "SG", hue: "#8C4FB8",
       search: q => `https://www.supergamesinc.com/products/search?q=${encodeURIComponent(q)}`,
       cart: "https://www.supergamesinc.com/checkout/cart" },
-    { name: "Peach State Games", initials: "PS", hue: "#b5482f",
+    { name: "Peach State Games", initials: "PS", hue: "#F2B705",
       search: q => `https://peachstategames.tcgplayerpro.com/search/products?q=${encodeURIComponent(q)}`,
       cart: "https://cart.tcgplayer.com/shoppingcart?sf=49117adc&ck=2cd56f0b87654c7b82f011f4c0a18799" },
-    { name: "Giga-Bites Cafe", initials: "GB", hue: "#3b6fa6",
+    { name: "Giga-Bites Cafe", initials: "GB", hue: "#2E9E68",
       search: q => `https://roxiecards.crystalcommerce.com/products/search?q=${encodeURIComponent(q)}`,
       cart: "https://roxiecards.crystalcommerce.com/checkout/index" },
-    { name: "Win Condition Games", initials: "WC", hue: "#6e7a3a",
-      search: q => `https://winconditiongames.tcgplayerpro.com/search/products?productLineName=Magic:+The+Gathering&q=${encodeURIComponent(q)}`,
+    { name: "Win Condition Games", initials: "WC", hue: "#B02807",
+      search: q => `https://winconditiongames.tcgplayerpro.com/search/products?productLineName=Pokemon&q=${encodeURIComponent(q)}`,
       cart: "https://winconditiongames.tcgplayerpro.com/tcgplayer/cart" }
   ];
 
@@ -607,8 +532,18 @@
     shopSelect.appendChild(opt);
   });
 
+  // pocket indicator dots
+  const pocketRow = document.getElementById('pocketRow');
+  const pockets = [];
+  shops.forEach(() => {
+    const dot = document.createElement('div');
+    dot.className = 'pocket-dot';
+    pocketRow.appendChild(dot);
+    pockets.push(dot);
+  });
+
   // want-list state, persisted locally
-  const STORAGE_KEY = 'sideboard-want-list';
+  const STORAGE_KEY = 'binder-want-list-pokemon';
   let wantList = [];
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -711,64 +646,39 @@
 
   renderLedger();
 
-  // build casting-circle nodes at 6 positions around the ring
-  const nodeGroup = document.getElementById('nodeGroup');
-  const dots = [];
-  const R = 79;
-  shops.forEach((shop, i) => {
-    const angle = (Math.PI * 2 * i) / shops.length - Math.PI / 2;
-    const cx = 100 + R * Math.cos(angle);
-    const cy = 100 + R * Math.sin(angle);
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('cx', cx);
-    circle.setAttribute('cy', cy);
-    circle.setAttribute('r', 7);
-    circle.setAttribute('class', 'node-dot');
-    nodeGroup.appendChild(circle);
-    dots.push(circle);
-  });
-
   let openedTabs = [];
   const form = document.getElementById('searchForm');
   const castBtn = document.getElementById('castBtn');
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function castSearch() {
+  function searchShops() {
     const query = document.getElementById('query').value.trim();
     if (!query) return;
 
     openedTabs.forEach(tab => { try { tab.close(); } catch (e) {} });
     openedTabs = [];
-    dots.forEach(d => d.classList.remove('lit'));
+    pockets.forEach(d => d.classList.remove('lit'));
 
     document.getElementById('cardName').value = query;
 
-    // open tabs immediately (synchronously, inside the user gesture) so popup blockers allow them
     shops.forEach(shop => {
       const tab = window.open(shop.search(query), '_blank');
       openedTabs.push(tab);
     });
 
-    // light up the ring as a visual confirmation the cast landed
     castBtn.disabled = true;
-    if (prefersReduced) {
-      dots.forEach(d => d.classList.add('lit'));
-      setTimeout(() => { castBtn.disabled = false; }, 300);
-    } else {
-      dots.forEach((dot, i) => {
-        setTimeout(() => dot.classList.add('lit'), i * 90);
-      });
-      setTimeout(() => { castBtn.disabled = false; }, dots.length * 90 + 250);
-    }
+    pockets.forEach((dot, i) => {
+      setTimeout(() => dot.classList.add('lit'), i * 90);
+    });
+    setTimeout(() => { castBtn.disabled = false; }, pockets.length * 90 + 250);
   }
 
-  castBtn.addEventListener('click', castSearch);
+  castBtn.addEventListener('click', searchShops);
 
-  // --- card art lookup (Scryfall) ---
-  const priceTag = document.getElementById('priceTag');
+  // --- card art lookup (pokemontcg.io) ---
   const artBtn = document.getElementById('artBtn');
   const cardArt = document.getElementById('cardArt');
   const artStatus = document.getElementById('artStatus');
+  const priceTag = document.getElementById('priceTag');
   const printPicker = document.getElementById('printPicker');
   const artLightbox = document.getElementById('artLightbox');
   const artLightboxImg = document.getElementById('artLightboxImg');
@@ -784,36 +694,43 @@
     }
   }
 
-  function faceImagesFor(card) {
-    return card.image_uris || (card.card_faces && card.card_faces[0] && card.card_faces[0].image_uris);
+  function lowestPrice(card) {
+    const values = [];
+    const tp = card.tcgplayer && card.tcgplayer.prices;
+    if (tp) {
+      Object.values(tp).forEach(variant => {
+        const v = variant.market ?? variant.low;
+        if (typeof v === 'number') values.push(v);
+      });
+    }
+    if (!values.length) {
+      const cm = card.cardmarket && card.cardmarket.prices;
+      if (cm) {
+        [cm.averageSellPrice, cm.lowPrice].forEach(v => {
+          if (typeof v === 'number' && v > 0) values.push(v);
+        });
+      }
+    }
+    if (!values.length) return null;
+    return Math.min(...values);
   }
 
-  function lowestPrice(card) {
-    const prices = card.prices || {};
-    const candidates = [prices.usd, prices.usd_foil, prices.usd_etched]
-      .filter(p => p !== null && p !== undefined)
-      .map(Number);
-    if (!candidates.length) return null;
-    return Math.min(...candidates);
+  function priceLink(card) {
+    return (card.tcgplayer && card.tcgplayer.url) || (card.cardmarket && card.cardmarket.url) || '#';
   }
 
   function setPriceTag(card) {
     const price = lowestPrice(card);
-    if (price === null) {
-      priceTag.textContent = 'No listed price';
-    } else {
-      priceTag.textContent = `From $${price.toFixed(2)}`;
-    }
-    priceTag.href = card.scryfall_uri || '#';
+    priceTag.textContent = price === null ? 'No listed price' : `From $${price.toFixed(2)}`;
+    priceTag.href = priceLink(card);
     priceTag.hidden = false;
   }
 
   function showPrint(card, thumbEl) {
-    const faceImages = faceImagesFor(card);
-    if (!faceImages) return;
-    cardArt.src = faceImages.normal || faceImages.large || faceImages.small;
-    cardArt.alt = `${card.name} — ${card.set_name}`;
-    zoomSrc = faceImages.png || faceImages.large || faceImages.normal;
+    if (!card.images || !card.images.large) return;
+    cardArt.src = card.images.large || card.images.small;
+    cardArt.alt = `${card.name} — ${card.set.name}`;
+    zoomSrc = card.images.large || card.images.small;
     cardArt.hidden = false;
     setArtStatus(null);
     setPriceTag(card);
@@ -823,49 +740,37 @@
     if (thumbEl) thumbEl.classList.add('active');
   }
 
-  async function loadPrints(printsUri) {
+  function buildPrintPicker(cards) {
     printPicker.innerHTML = '';
-    printPicker.hidden = true;
-    try {
-      const res = await fetch(printsUri);
-      if (!res.ok) return;
-      const data = await res.json();
-      const prints = data.data || [];
-      if (prints.length < 2) return;
+    if (cards.length < 2) { printPicker.hidden = true; return; }
 
-      prints.forEach(card => {
-        const faceImages = faceImagesFor(card);
-        if (!faceImages) return;
-        const thumb = document.createElement('img');
-        thumb.className = 'print-thumb';
-        thumb.src = faceImages.small || faceImages.normal;
-        thumb.alt = card.set_name;
-        thumb.title = `${card.set_name}${card.collector_number ? ' #' + card.collector_number : ''}`;
-        thumb.addEventListener('click', () => showPrint(card, thumb));
-        if (card.id === currentPrintId) {
-          thumb.classList.add('active');
-          setPriceTag(card);
-        }
-        printPicker.appendChild(thumb);
-      });
+    cards.forEach(card => {
+      if (!card.images || !card.images.small) return;
+      const thumb = document.createElement('img');
+      thumb.className = 'print-thumb';
+      thumb.src = card.images.small;
+      thumb.alt = card.set.name;
+      thumb.title = `${card.set.name}${card.number ? ' #' + card.number : ''}`;
+      thumb.addEventListener('click', () => showPrint(card, thumb));
+      if (card.id === currentPrintId) thumb.classList.add('active');
+      printPicker.appendChild(thumb);
+    });
 
-      if (printPicker.children.length) printPicker.hidden = false;
-    } catch (err) {
-      // prints strip is a nice-to-have — fail silently if it can't load
-    }
+    printPicker.hidden = false;
   }
 
-  async function findCard(query) {
-    // try a fuzzy exact-name match first (fast, precise)
-    const fuzzyRes = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(query)}`);
-    if (fuzzyRes.ok) return fuzzyRes.json();
+  async function findCards(query) {
+    const exactRes = await fetch(`https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent('name:"' + query + '"')}&orderBy=-set.releaseDate`);
+    if (exactRes.ok) {
+      const exactData = await exactRes.json();
+      if (exactData.data && exactData.data.length) return exactData.data;
+    }
 
-    // fall back to a broad search for partial names, then take the closest result
-    const searchRes = await fetch(`https://api.scryfall.com/cards/search?q=${encodeURIComponent(query)}&order=relevance&unique=cards`);
-    if (!searchRes.ok) throw new Error('not found');
-    const searchData = await searchRes.json();
-    if (!searchData.data || !searchData.data.length) throw new Error('not found');
-    return searchData.data[0];
+    const wildRes = await fetch(`https://api.pokemontcg.io/v2/cards?q=${encodeURIComponent('name:*' + query + '*')}&orderBy=-set.releaseDate`);
+    if (!wildRes.ok) throw new Error('not found');
+    const wildData = await wildRes.json();
+    if (!wildData.data || !wildData.data.length) throw new Error('not found');
+    return wildData.data;
   }
 
   async function fetchCardArt() {
@@ -873,21 +778,16 @@
     if (!query) { setArtStatus('Enter a card name first.'); return; }
 
     artBtn.disabled = true;
-    setArtStatus('Summoning art…');
+    setArtStatus('Flipping through the binder…');
     cardArt.hidden = true;
     priceTag.hidden = true;
     printPicker.hidden = true;
     printPicker.innerHTML = '';
 
     try {
-      const data = await findCard(query);
-
-      const faceImages = faceImagesFor(data);
-      if (!faceImages) throw new Error('no image');
-
-      showPrint(data);
-
-      if (data.prints_search_uri) loadPrints(data.prints_search_uri);
+      const cards = await findCards(query);
+      showPrint(cards[0]);
+      buildPrintPicker(cards);
     } catch (err) {
       setArtStatus(`No card art found for "${query}".`);
       priceTag.hidden = true;
