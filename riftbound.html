@@ -3,22 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Binder — Search Six Shops</title>
+<title>The Vault — Search Six Shops</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream: #12141C;
-    --panel: #1C2130;
-    --ink: #F3F1E7;
-    --ink-soft: #9AA0B4;
-    --red: #EE1515;
-    --red-dark: #9E0D0D;
-    --navy: #5B9BDB;
-    --gold: #FFCB05;
-    --line: #2B3142;
-    --hair: rgba(255,255,255,0.08);
+    --ink: #0A0E1A;
+    --panel: #121A2C;
+    --text: #E9F0FF;
+    --text-dim: #8B96B8;
+    --cyan: #3FE0E8;
+    --cyan-dim: #1E8B90;
+    --gold: #D9A94E;
+    --line: #263252;
+    --hair: rgba(63,224,232,0.14);
   }
 
   * { box-sizing: border-box; }
@@ -26,13 +25,14 @@
   html, body {
     margin: 0;
     padding: 0;
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'Nunito Sans', sans-serif;
+    background: var(--ink);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
     min-height: 100vh;
   }
 
   body {
+    background-image: radial-gradient(circle at 15% 0%, rgba(63,224,232,0.06), transparent 45%);
     padding: 4vw 5vw 6vw;
     display: flex;
     justify-content: center;
@@ -43,25 +43,28 @@
   .top-nav {
     text-align: center;
     margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
   }
 
   .top-nav a {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--text-dim);
     text-decoration: none;
-    border-bottom: 1px dashed var(--ink-soft);
+    border-bottom: 1px dashed var(--text-dim);
   }
 
-  .top-nav a:hover { color: var(--red); border-color: var(--red); }
+  .top-nav a:hover { color: var(--cyan); border-color: var(--cyan); }
 
   header.masthead {
     text-align: center;
     margin-bottom: 2.25rem;
     padding-bottom: 1.5rem;
-    border-bottom: 3px solid var(--gold);
+    border-bottom: 2px solid var(--cyan);
   }
 
   .eyebrow {
@@ -69,77 +72,47 @@
     font-size: 0.7rem;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--red);
+    color: var(--cyan);
     margin: 0 0 0.6rem;
   }
 
   h1 {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
-    font-size: clamp(2rem, 5vw, 2.9rem);
+    font-size: clamp(2.1rem, 5vw, 3rem);
+    letter-spacing: 0.02em;
     margin: 0 0 0.5rem;
-    color: var(--ink);
+    color: var(--text);
   }
 
   .subhead {
-    font-size: 1.02rem;
-    color: var(--ink-soft);
+    font-size: 1.05rem;
+    color: var(--text-dim);
     margin: 0;
   }
 
   section.panel {
     background: var(--panel);
-    border: 3px solid var(--line);
-    border-radius: 14px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
     padding: 2rem;
     margin-bottom: 1.75rem;
   }
 
   .panel-title {
-    font-family: 'Baloo 2', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
-    font-size: 1.15rem;
-    color: var(--navy);
+    font-size: 1.2rem;
+    letter-spacing: 0.03em;
+    color: var(--cyan);
     margin: 0 0 1.4rem;
-  }
-
-  /* --- ball ring + shop indicator dots --- */
-  .ball-ring {
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 1;
-    opacity: 0.4;
-  }
-
-  .ball-ring.inner {
-    stroke: var(--line);
-    opacity: 0.6;
-  }
-
-  .ball-body-top { fill: #EE1515; opacity: 1; }
-  .ball-body-bottom { fill: #F3F1E7; opacity: 1; }
-  .ball-band { fill: #16171C; }
-  .ball-button-ring { fill: none; stroke: #16171C; stroke-width: 3; }
-  .ball-button-core { fill: #F3F1E7; }
-
-  .pocket-dot {
-    fill: var(--panel);
-    stroke: var(--hair);
-    stroke-width: 1.5;
-    transition: fill 0.2s ease, filter 0.2s ease;
-  }
-
-  .pocket-dot.lit {
-    fill: var(--gold);
-    filter: drop-shadow(0 0 5px rgba(255,203,5,0.85));
   }
 
   .price-tag {
     display: block;
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.88rem;
-    font-weight: 500;
+    font-size: 0.85rem;
     color: var(--gold);
     text-decoration: none;
     margin: 0 0 0.5rem;
@@ -149,7 +122,7 @@
   .price-tag[hidden] { display: none; }
 
   /* --- card display --- */
-  .pocket-wrap {
+  .hex-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -158,7 +131,30 @@
     position: relative;
   }
 
-  .ball-svg { width: 210px; height: 210px; }
+  .hex-svg { width: 210px; height: 210px; }
+
+  .shield-frame {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 1.2;
+    opacity: 0.5;
+  }
+
+  .shield-frame.inner {
+    stroke: var(--line);
+    opacity: 0.85;
+  }
+
+  .shield-gem {
+    fill: var(--gold);
+    opacity: 0.9;
+  }
+
+  .shield-wing {
+    stroke: var(--cyan);
+    stroke-width: 1;
+    opacity: 0.35;
+  }
 
   .card-art {
     position: absolute;
@@ -167,11 +163,11 @@
     transform: translate(-50%, -50%);
     width: 204px;
     height: 285px;
-    border-radius: 12px;
+    border-radius: 6px;
     object-fit: contain;
-    background: var(--cream);
-    border: 3px solid var(--gold);
-    box-shadow: 0 0 0 3px rgba(255,203,5,0.14), 0 8px 20px rgba(0,0,0,0.5);
+    background: var(--ink);
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 0 3px rgba(63,224,232,0.12), 0 8px 20px rgba(0,0,0,0.6);
     cursor: zoom-in;
   }
 
@@ -179,7 +175,7 @@
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    color: var(--ink-soft);
+    color: var(--text-dim);
     margin: 0 0 1.25rem;
   }
 
@@ -199,21 +195,21 @@
     flex: 0 0 auto;
     width: 44px;
     height: 61px;
-    border-radius: 5px;
+    border-radius: 4px;
     object-fit: cover;
-    border: 2px solid var(--hair);
+    border: 1.5px solid var(--line);
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.15s ease, border-color 0.15s ease;
   }
 
   .print-thumb:hover { opacity: 1; }
-  .print-thumb.active { opacity: 1; border-color: var(--red); }
+  .print-thumb.active { opacity: 1; border-color: var(--cyan); }
 
   .art-lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(31,36,48,0.85);
+    background: rgba(6,8,14,0.9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -227,8 +223,8 @@
   .art-lightbox img {
     max-width: min(90vw, 480px);
     max-height: 90vh;
-    border-radius: 12px;
-    border: 4px solid var(--panel);
+    border-radius: 8px;
+    border: 2px solid var(--cyan);
   }
 
   form {
@@ -239,64 +235,64 @@
 
   input[type="text"] {
     flex: 1 1 260px;
-    background: var(--cream);
-    color: var(--ink);
-    border: 2px solid var(--line);
-    border-radius: 8px;
+    background: var(--ink);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 4px;
     padding: 0.85rem 1rem;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 1.02rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.05rem;
   }
 
-  input[type="text"]::placeholder { color: #9a9a8f; }
+  input[type="text"]::placeholder { color: #4E5A7C; }
 
   input[type="text"]:focus,
   button:focus-visible,
   a.cart-tab:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(227,53,13,0.3);
+    box-shadow: 0 0 0 3px rgba(63,224,232,0.3);
   }
 
   button.art-btn {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 600;
-    font-size: 0.9rem;
-    background: var(--red);
-    color: #fff;
-    border: 2px solid var(--line);
-    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    background: var(--cyan);
+    color: #06222A;
+    border: none;
+    border-radius: 4px;
     padding: 0 1.5rem;
     cursor: pointer;
-    box-shadow: 0 3px 0 var(--line);
-    transition: transform 0.1s ease;
+    transition: filter 0.15s ease;
   }
 
-  button.art-btn:hover { filter: brightness(1.05); }
-  button.art-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
+  button.art-btn:hover { filter: brightness(1.1); }
+  button.art-btn:active { transform: scale(0.97); }
   button.art-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
 
   button.cast-btn {
-    font-family: 'Baloo 2', sans-serif;
-    font-weight: 600;
-    font-size: 0.9rem;
-    background: var(--navy);
-    color: #fff;
-    border: 2px solid var(--line);
-    border-radius: 8px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    background: transparent;
+    color: var(--cyan);
+    border: 1.5px solid var(--cyan);
+    border-radius: 4px;
     padding: 0 1.4rem;
     cursor: pointer;
-    box-shadow: 0 3px 0 var(--line);
-    transition: transform 0.1s ease;
+    transition: background 0.15s ease;
   }
 
-  button.cast-btn:hover { filter: brightness(1.1); }
-  button.cast-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--line); }
+  button.cast-btn:hover { background: rgba(63,224,232,0.1); }
+  button.cast-btn:active { transform: scale(0.97); }
   button.cast-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
 
   .hint {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    color: var(--ink-soft);
+    color: var(--text-dim);
     margin: 0.9rem 0 0;
   }
 
@@ -310,35 +306,35 @@
   .add-row input[type="text"] { flex: 1 1 220px; }
 
   select#shopSelect {
-    background: var(--cream);
-    color: var(--ink);
-    border: 2px solid var(--line);
-    border-radius: 8px;
+    background: var(--ink);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 4px;
     padding: 0.85rem 0.75rem;
-    font-family: 'Nunito Sans', sans-serif;
-    font-size: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.02rem;
     flex: 1 1 180px;
   }
 
   button.add-btn {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     background: transparent;
-    color: var(--navy);
-    border: 2px solid var(--navy);
-    border-radius: 8px;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
     padding: 0 1.3rem;
     cursor: pointer;
     transition: background 0.15s ease;
   }
 
-  button.add-btn:hover { background: rgba(91,155,219,0.12); }
+  button.add-btn:hover { background: rgba(217,169,78,0.12); }
 
   .empty-note {
     font-style: italic;
-    color: var(--ink-soft);
+    color: var(--text-dim);
     font-size: 0.95rem;
     margin: 0.5rem 0 0;
   }
@@ -374,29 +370,29 @@
     display: flex;
     align-items: center;
     gap: 0.65rem;
-    font-size: 1rem;
+    font-size: 1.02rem;
     font-weight: 600;
   }
 
   .sigil {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
+    width: 28px;
+    height: 28px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 0.72rem;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.68rem;
     font-weight: 700;
-    color: #fff;
+    color: #06121A;
     flex-shrink: 0;
   }
 
   .count-badge {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
-    color: var(--ink);
-    background: var(--gold);
+    color: #06121A;
+    background: var(--cyan);
     border-radius: 10px;
     padding: 0.1rem 0.5rem;
   }
@@ -406,16 +402,16 @@
     font-size: 0.72rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--red);
+    color: var(--cyan);
     text-decoration: none;
-    border: 2px solid var(--red);
-    border-radius: 6px;
+    border: 1px solid var(--cyan);
+    border-radius: 4px;
     padding: 0.4rem 0.75rem;
     white-space: nowrap;
     transition: background 0.15s ease;
   }
 
-  a.cart-tab:hover { background: rgba(238,21,21,0.12); }
+  a.cart-tab:hover { background: rgba(63,224,232,0.1); }
 
   ul.item-list { list-style: none; margin: 0 0 0.7rem; padding: 0; }
 
@@ -426,27 +422,27 @@
     gap: 0.75rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85rem;
-    color: var(--ink-soft);
+    color: var(--text-dim);
     padding: 0.3rem 0;
   }
 
   .remove-btn {
     background: none;
     border: none;
-    color: var(--red);
+    color: var(--cyan);
     cursor: pointer;
     font-size: 0.95rem;
     line-height: 1;
     padding: 0.1rem 0.3rem;
   }
 
-  .remove-btn:hover { color: #FF6B5C; }
+  .remove-btn:hover { color: var(--gold); }
 
   footer {
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
-    color: var(--ink-soft);
+    color: var(--text-dim);
     opacity: 0.7;
     margin-top: 2rem;
   }
@@ -461,11 +457,14 @@
 <body>
 <div class="page">
 
-  <p class="top-nav"><a href="index.html">Switch to the Magic version</a> <a href="riftbound.html">Switch to the League of Legends version</a></p>
+  <p class="top-nav">
+    <a href="index.html">Magic version</a>
+    <a href="pokemon.html">Pok&#233;mon version</a>
+  </p>
 
   <header class="masthead">
     <p class="eyebrow">Multiple Shops, One Search</p>
-    <h1>The Binder</h1>
+    <h1>The Vault</h1>
     <p class="subhead">Search every shop's shelves in one go.</p>
   </header>
 
@@ -473,16 +472,12 @@
     <p class="panel-title" id="search-title">Card lookup</p>
 
     <a class="price-tag" id="priceTag" href="#" target="_blank" rel="noopener" hidden></a>
-    <div class="pocket-wrap">
-      <svg class="ball-svg" viewBox="0 0 200 200" aria-hidden="true">
-        <circle class="ball-ring" cx="100" cy="100" r="88"></circle>
-        <circle class="ball-ring inner" cx="100" cy="100" r="70"></circle>
-        <path class="ball-body-top" d="M100 38 A62 62 0 0 1 162 100 L38 100 A62 62 0 0 1 100 38 Z"></path>
-        <path class="ball-body-bottom" d="M100 162 A62 62 0 0 1 38 100 L162 100 A62 62 0 0 1 100 162 Z"></path>
-        <rect class="ball-band" x="38" y="94" width="124" height="12"></rect>
-        <circle class="ball-button-core" cx="100" cy="100" r="14"></circle>
-        <circle class="ball-button-ring" cx="100" cy="100" r="14"></circle>
-        <g id="pocketGroup"></g>
+    <div class="hex-wrap">
+      <svg class="hex-svg" viewBox="0 0 200 200" aria-hidden="true">
+        <path class="shield-frame" d="M100 10 L164 38 L164 106 C164 150 136 176 100 192 C64 176 36 150 36 106 L36 38 Z"></path>
+        <path class="shield-frame inner" d="M100 28 L148 50 L148 104 C148 138 126 158 100 172 C74 158 52 138 52 104 L52 50 Z"></path>
+        <path class="shield-wing" d="M36 60 L14 68 M164 60 L186 68"></path>
+        <rect class="shield-gem" x="94" y="2" width="12" height="12" transform="rotate(45 100 8)"></rect>
       </svg>
       <img id="cardArt" class="card-art" alt="" hidden>
     </div>
@@ -490,17 +485,17 @@
     <div class="print-picker" id="printPicker" hidden></div>
 
     <form id="searchForm">
-      <input type="text" id="query" placeholder="Pokemon" required autocomplete="off">
+      <input type="text" id="query" placeholder="League of Legends" required autocomplete="off">
       <button type="submit" class="art-btn" id="artBtn">Show card art</button>
       <button type="button" class="cast-btn" id="castBtn">Search shops</button>
     </form>
-    <p class="hint">Opens a tab per shop — allow pop-ups from this page if any are blocked. Add a card number (like 14/30) to match an exact printing.</p>
+    <p class="hint">Opens a tab per shop — allow pop-ups from this page if any are blocked. Add a card number to match an exact printing.</p>
   </section>
 
   <section class="panel" aria-labelledby="add-title">
-    <p class="panel-title" id="add-title">Add to your binder</p>
+    <p class="panel-title" id="add-title">Add to your want list</p>
     <div class="add-row">
-      <input type="text" id="cardName" placeholder="Pikachu VMAX" autocomplete="off">
+      <input type="text" id="cardName" placeholder="Jinx" autocomplete="off">
       <select id="shopSelect"></select>
       <button type="button" class="add-btn" id="addBtn">Add card</button>
     </div>
@@ -509,10 +504,10 @@
 
   <section class="panel" aria-labelledby="ledger-title">
     <div class="ledger-head">
-      <p class="panel-title" id="ledger-title">Your binder</p>
+      <p class="panel-title" id="ledger-title">Your ledger</p>
       <div class="ledger-actions">
         <button type="button" class="add-btn" id="checkoutAllBtn">Checkout all</button>
-        <button type="button" class="add-btn" id="clearLedgerBtn">Clear binder</button>
+        <button type="button" class="add-btn" id="clearLedgerBtn">Clear ledger</button>
       </div>
     </div>
     <div id="ledgerGroups"></div>
@@ -527,27 +522,26 @@
 
 <script>
   const shops = [
-    { name: "Dragon's Eye Singles", initials: "DE", hue: "#E3350D",
+    { name: "Dragon's Eye Singles", initials: "DE", hue: "#3FE0E8",
       search: q => `https://www.dragonseyesingles.com/products/search?q=${encodeURIComponent(q)}`,
       cart: "https://www.dragonseyesingles.com/checkout/cart" },
-    { name: "Hawk's Nest Gaming", initials: "HN", hue: "#2A3990",
+    { name: "Hawk's Nest Gaming", initials: "HN", hue: "#D9A94E",
       search: q => `https://hawksnestgaming.tcgplayerpro.com/search/products?q=${encodeURIComponent(q)}`,
       cart: "https://cart.tcgplayer.com/shoppingcart?sf=5f72300f&ck=7ea621b626744eb18365ab87add13486" },
-    { name: "Super Games Inc", initials: "SG", hue: "#8C4FB8",
+    { name: "Super Games Inc", initials: "SG", hue: "#8C6FE0",
       search: q => `https://www.supergamesinc.com/products/search?q=${encodeURIComponent(q)}`,
       cart: "https://www.supergamesinc.com/checkout/cart" },
-    { name: "Peach State Games", initials: "PS", hue: "#F2B705",
+    { name: "Peach State Games", initials: "PS", hue: "#E07A3F",
       search: q => `https://peachstategames.tcgplayerpro.com/search/products?q=${encodeURIComponent(q)}`,
       cart: "https://cart.tcgplayer.com/shoppingcart?sf=49117adc&ck=2cd56f0b87654c7b82f011f4c0a18799" },
-    { name: "Giga-Bites Cafe", initials: "GB", hue: "#2E9E68",
+    { name: "Giga-Bites Cafe", initials: "GB", hue: "#4EE07A",
       search: q => `https://roxiecards.crystalcommerce.com/products/search?q=${encodeURIComponent(q)}`,
       cart: "https://roxiecards.crystalcommerce.com/checkout/index" },
-    { name: "Win Condition Games", initials: "WC", hue: "#B02807",
-      search: q => `https://winconditiongames.tcgplayerpro.com/search/products?productLineName=Pokemon&q=${encodeURIComponent(q)}`,
+    { name: "Win Condition Games", initials: "WC", hue: "#E04F6E",
+      search: q => `https://winconditiongames.tcgplayerpro.com/search/products?productLineName=Riftbound&q=${encodeURIComponent(q)}`,
       cart: "https://winconditiongames.tcgplayerpro.com/tcgplayer/cart" }
   ];
 
-  // populate the shop dropdown
   const shopSelect = document.getElementById('shopSelect');
   shops.forEach((shop, i) => {
     const opt = document.createElement('option');
@@ -556,25 +550,7 @@
     shopSelect.appendChild(opt);
   });
 
-  // shop indicator dots, positioned around the ball ring
-  const pocketGroup = document.getElementById('pocketGroup');
-  const pockets = [];
-  const POCKET_R = 79;
-  shops.forEach((shop, i) => {
-    const angle = (Math.PI * 2 * i) / shops.length - Math.PI / 2;
-    const cx = 100 + POCKET_R * Math.cos(angle);
-    const cy = 100 + POCKET_R * Math.sin(angle);
-    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    dot.setAttribute('cx', cx);
-    dot.setAttribute('cy', cy);
-    dot.setAttribute('r', 7);
-    dot.setAttribute('class', 'pocket-dot');
-    pocketGroup.appendChild(dot);
-    pockets.push(dot);
-  });
-
-  // want-list state, persisted locally
-  const STORAGE_KEY = 'binder-want-list-pokemon';
+  const STORAGE_KEY = 'vault-want-list-riftbound';
   let wantList = [];
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -687,7 +663,6 @@
 
     openedTabs.forEach(tab => { try { tab.close(); } catch (e) {} });
     openedTabs = [];
-    pockets.forEach(d => d.classList.remove('lit'));
 
     document.getElementById('cardName').value = query;
 
@@ -697,15 +672,12 @@
     });
 
     castBtn.disabled = true;
-    pockets.forEach((dot, i) => {
-      setTimeout(() => dot.classList.add('lit'), i * 90);
-    });
-    setTimeout(() => { castBtn.disabled = false; }, pockets.length * 90 + 250);
+    setTimeout(() => { castBtn.disabled = false; }, 400);
   }
 
   castBtn.addEventListener('click', searchShops);
 
-  // --- card art lookup (tcgdex.dev, no API key required) ---
+  // --- card art lookup (riftcodex.com, no API key required) ---
   const artBtn = document.getElementById('artBtn');
   const cardArt = document.getElementById('cardArt');
   const artStatus = document.getElementById('artStatus');
@@ -725,103 +697,47 @@
     }
   }
 
-  function lowestPrice(card) {
-    const tp = card.pricing && card.pricing.tcgplayer;
-    if (!tp) return null;
-    const values = [];
-    Object.keys(tp).forEach(key => {
-      if (key === 'updated' || key === 'unit') return;
-      const variant = tp[key];
-      if (variant && typeof variant === 'object') {
-        const v = variant.marketPrice ?? variant.lowPrice;
-        if (typeof v === 'number') values.push(v);
-      }
-    });
-    return values.length ? Math.min(...values) : null;
-  }
-
   function priceLink(card) {
-    return `https://www.tcgplayer.com/search/pokemon/product?q=${encodeURIComponent(card.name)}`;
-  }
-
-  function setPriceTag(card) {
-    const price = lowestPrice(card);
-    priceTag.textContent = price === null ? 'No listed price' : `From $${price.toFixed(2)}`;
-    priceTag.href = priceLink(card);
-    priceTag.hidden = false;
+    return card.tcgplayer_id
+      ? `https://www.tcgplayer.com/product/${encodeURIComponent(card.tcgplayer_id)}`
+      : `https://www.tcgplayer.com/search/all/product?q=${encodeURIComponent(card.name)}`;
   }
 
   function showPrint(card, thumbEl) {
-    if (!card.image) {
-      setArtStatus(`No image available for "${card.name}" (${card.set.name}).`);
+    const imageUrl = card.media && card.media.image_url;
+    if (!imageUrl) {
+      setArtStatus(`No image available for "${card.name}" (${card.set.label}).`);
       priceTag.hidden = true;
       return;
     }
-    const fullSrc = `${card.image}/high.webp`;
-    cardArt.src = fullSrc;
-    cardArt.alt = `${card.name} — ${card.set.name}`;
-    zoomSrc = fullSrc;
+    cardArt.src = imageUrl;
+    cardArt.alt = card.media.accessibility_text || `${card.name} — ${card.set.label}`;
+    zoomSrc = imageUrl;
     cardArt.hidden = false;
     setArtStatus(null);
-    setPriceTag(card);
+    priceTag.textContent = 'View on TCGplayer';
+    priceTag.href = priceLink(card);
+    priceTag.hidden = false;
     currentPrintId = card.id;
 
     printPicker.querySelectorAll('.print-thumb').forEach(el => el.classList.remove('active'));
     if (thumbEl) thumbEl.classList.add('active');
   }
 
-  async function getCardDetail(id) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
-
-    let res;
-    try {
-      res = await fetch(
-        `https://api.tcgdex.net/v2/en/cards/${encodeURIComponent(id)}`,
-        { signal: controller.signal }
-      );
-    } catch (err) {
-      if (err.name === 'AbortError') throw new Error('timeout');
-      throw err;
-    } finally {
-      clearTimeout(timeout);
-    }
-
-    if (!res.ok) throw new Error('not found');
-    return res.json();
-  }
-
-  async function selectPrint(id, thumbEl) {
-    if (thumbEl) {
-      printPicker.querySelectorAll('.print-thumb').forEach(el => el.classList.remove('active'));
-      thumbEl.classList.add('active');
-    }
-    try {
-      const card = await getCardDetail(id);
-      showPrint(card, thumbEl);
-    } catch (err) {
-      if (err.message === 'timeout') {
-        setArtStatus('The card database is being slow right now — try again in a moment.');
-      } else {
-        setArtStatus('Could not load that printing — try another.');
-      }
-      priceTag.hidden = true;
-    }
-  }
-
-  function buildPrintPicker(briefCards) {
+  function buildPrintPicker(cards) {
     printPicker.innerHTML = '';
-    if (briefCards.length < 2) { printPicker.hidden = true; return; }
+    if (cards.length < 2) { printPicker.hidden = true; return; }
 
-    briefCards.forEach(brief => {
-      if (!brief.image) return;
+    cards.forEach(card => {
+      const imageUrl = card.media && card.media.image_url;
+      if (!imageUrl) return;
       const thumb = document.createElement('img');
       thumb.className = 'print-thumb';
-      thumb.src = `${brief.image}/low.webp`;
-      thumb.alt = brief.name;
-      thumb.title = brief.name;
-      thumb.addEventListener('click', () => selectPrint(brief.id, thumb));
-      if (brief.id === currentPrintId) thumb.classList.add('active');
+      thumb.src = imageUrl;
+      thumb.alt = card.set.label;
+      thumb.title = `${card.set.label} #${card.collector_number}`;
+      thumb.addEventListener('click', () => showPrint(card, thumb));
+      if (card.id === currentPrintId) thumb.classList.add('active');
       printPicker.appendChild(thumb);
     });
 
@@ -829,51 +745,51 @@
   }
 
   function parseQuery(raw) {
-    // pull a trailing card number off the end — "Pikachu 14/30" or "Pikachu 14"
-    const match = raw.match(/^(.*?)\s+(\d+)(?:\s*\/\s*\d+)?\s*$/);
+    const match = raw.match(/^(.*?)\s+(\d+)\s*$/);
     if (match && match[1].trim()) {
-      return { name: match[1].trim(), localId: match[2] };
+      return { name: match[1].trim(), number: Number(match[2]) };
     }
-    return { name: raw.trim(), localId: null };
+    return { name: raw.trim(), number: null };
   }
 
-  function normalizeLocalId(id) {
-    return String(id).replace(/^0+(?=\d)/, '');
-  }
-
-  async function findCards(query) {
-    const { name, localId } = parseQuery(query);
-
+  async function fetchJson(url) {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
-
     let res;
     try {
-      res = await fetch(
-        `https://api.tcgdex.net/v2/en/cards?name=${encodeURIComponent(name)}`,
-        { signal: controller.signal }
-      );
+      res = await fetch(url, { signal: controller.signal });
     } catch (err) {
       if (err.name === 'AbortError') throw new Error('timeout');
       throw err;
     } finally {
       clearTimeout(timeout);
     }
-
     if (!res.ok) throw new Error('not found');
-    let data = await res.json();
-    if (!data || !data.length) throw new Error('not found');
+    return res.json();
+  }
 
-    if (localId) {
-      const target = normalizeLocalId(localId);
-      const narrowed = data.filter(c => normalizeLocalId(c.localId) === target);
+  async function findCards(query) {
+    const { name, number } = parseQuery(query);
+
+    let data = await fetchJson(`https://api.riftcodex.com/cards/name?exact=${encodeURIComponent(name)}`);
+    let cards = (data && data.data) || (Array.isArray(data) ? data : []);
+
+    if (!cards.length) {
+      data = await fetchJson(`https://api.riftcodex.com/cards/name?fuzzy=${encodeURIComponent(name)}`);
+      cards = (data && data.data) || (Array.isArray(data) ? data : []);
+    }
+
+    if (!cards.length) throw new Error('not found');
+
+    if (number !== null) {
+      const narrowed = cards.filter(c => c.collector_number === number);
       if (narrowed.length) {
-        const withImages = narrowed.filter(c => c.image);
-        data = withImages.length ? withImages : narrowed;
+        const withImages = narrowed.filter(c => c.media && c.media.image_url);
+        cards = withImages.length ? withImages : narrowed;
       }
     }
 
-    return data;
+    return cards;
   }
 
   async function fetchCardArt() {
@@ -881,16 +797,16 @@
     if (!query) { setArtStatus('Enter a card name first.'); return; }
 
     artBtn.disabled = true;
-    setArtStatus('Flipping through the binder…');
+    setArtStatus('Searching the vault…');
     cardArt.hidden = true;
     priceTag.hidden = true;
     printPicker.hidden = true;
     printPicker.innerHTML = '';
 
     try {
-      const briefCards = await findCards(query);
-      await selectPrint(briefCards[0].id);
-      buildPrintPicker(briefCards);
+      const cards = await findCards(query);
+      showPrint(cards[0]);
+      buildPrintPicker(cards);
     } catch (err) {
       console.error('Card art lookup failed:', err);
       if (err.message === 'timeout') {
