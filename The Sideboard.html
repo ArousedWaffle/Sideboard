@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Sideboard — Search Six Shops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #17131f;
+    --ink-2: #221c30;
+    --ink-3: #2b2440;
+    --parchment: #f1e9d2;
+    --parchment-dim: #d9cfae;
+    --gold: #c9a24b;
+    --gold-bright: #e6c369;
+    --ember: #b5482f;
+    --ink-text: #2a2233;
+    --hair: rgba(201,162,75,0.22);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'EB Garamond', serif;
+    min-height: 100vh;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(201,162,75,0.05), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(181,72,47,0.05), transparent 45%);
+    padding: 4vw 5vw 6vw;
+    display: flex;
+    justify-content: center;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 760px;
+  }
+
+  header.masthead {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 0.6rem;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    letter-spacing: 0.03em;
+    margin: 0 0 0.5rem;
+    color: var(--parchment);
+    text-shadow: 0 0 24px rgba(201,162,75,0.18);
+  }
+
+  .subhead {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--parchment-dim);
+    margin: 0;
+  }
+
+  section.panel {
+    background: linear-gradient(180deg, var(--ink-2), var(--ink-3));
+    border: 1px solid var(--hair);
+    border-radius: 6px;
+    padding: 2.25rem;
+    margin-bottom: 1.75rem;
+    position: relative;
+  }
+
+  section.panel::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(201,162,75,0.09);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  .panel-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    color: var(--gold-bright);
+    margin: 0 0 1.5rem;
+  }
+
+  /* --- casting circle --- */
+  .price-tag {
+    display: block;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    color: var(--gold-bright);
+    text-decoration: none;
+    margin: 0 0 0.35rem;
+  }
+
+  .price-tag:hover { text-decoration: underline; }
+
+  .circle-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 285px;
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+
+  .circle-svg { width: 210px; height: 210px; }
+
+  .card-art {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 204px;
+    height: 285px;
+    border-radius: 9px;
+    object-fit: contain;
+    background: var(--ink-2);
+    border: 2px solid var(--gold-bright);
+    box-shadow: 0 0 22px rgba(0,0,0,0.55);
+    cursor: zoom-in;
+  }
+
+  .art-status {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--parchment-dim);
+    opacity: 0.75;
+    margin: 0 0 1.25rem;
+  }
+
+  .print-picker {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.2rem 0.1rem 0.5rem;
+    margin: -0.5rem 0 1.25rem;
+    scrollbar-width: thin;
+  }
+
+  .print-thumb {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 61px;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 1.5px solid rgba(201,162,75,0.35);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.15s ease, border-color 0.15s ease;
+  }
+
+  .print-thumb:hover { opacity: 1; }
+
+  .print-thumb.active {
+    opacity: 1;
+    border-color: var(--gold-bright);
+  }
+
+  .art-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,8,15,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    cursor: zoom-out;
+    z-index: 100;
+  }
+
+  .art-lightbox[hidden] { display: none; }
+
+  .art-lightbox img {
+    max-width: min(90vw, 480px);
+    max-height: 90vh;
+    border-radius: 12px;
+    border: 2px solid var(--gold-bright);
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  }
+
+  button.art-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--gold-bright);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    padding: 0 1.3rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  button.art-btn:hover { background: rgba(201,162,75,0.14); }
+  button.art-btn:disabled { opacity: 0.6; cursor: default; }
+
+  .rune-ring {
+    fill: none;
+    stroke: rgba(201,162,75,0.25);
+    stroke-width: 1;
+  }
+
+  .rune-ring.inner {
+    stroke: rgba(201,162,75,0.14);
+  }
+
+  .node-dot {
+    fill: var(--ink-2);
+    stroke: var(--gold);
+    stroke-width: 1.5;
+    transition: fill 0.25s ease, filter 0.25s ease;
+  }
+
+  .node-dot.lit {
+    fill: var(--gold-bright);
+    filter: drop-shadow(0 0 6px rgba(230,195,105,0.9));
+  }
+
+  .center-mark {
+    fill: none;
+    stroke: var(--ember);
+    stroke-width: 1.2;
+    opacity: 0.55;
+  }
+
+  form {
+    display: flex;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  input[type="text"] {
+    flex: 1 1 260px;
+    background: var(--parchment);
+    color: var(--ink-text);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    padding: 0.85rem 1rem;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.05rem;
+  }
+
+  input[type="text"]::placeholder { color: #7a7160; font-style: italic; }
+
+  input[type="text"]:focus,
+  button:focus-visible,
+  a.cart-tab:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(230,195,105,0.45);
+  }
+
+  button.cast-btn {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    color: #241a05;
+    border: none;
+    border-radius: 3px;
+    padding: 0 1.6rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+
+  button.cast-btn:hover { filter: brightness(1.08); }
+  button.cast-btn:active { transform: scale(0.97); }
+  button.cast-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+
+  .hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--parchment-dim);
+    opacity: 0.7;
+    margin: 0.9rem 0 0;
+  }
+
+  /* --- ledger --- */
+  ul.ledger { list-style: none; margin: 0; padding: 0; }
+
+  .ledger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--hair);
+  }
+
+  .ledger-row:last-child { border-bottom: none; }
+
+  .sigil {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .shop-name {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.02rem;
+    color: var(--parchment);
+  }
+
+  a.cart-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    text-decoration: none;
+    border: 1px solid rgba(201,162,75,0.4);
+    border-radius: 3px;
+    padding: 0.4rem 0.75rem;
+    white-space: nowrap;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  a.cart-tab:hover { background: rgba(201,162,75,0.14); }
+
+  .add-row {
+    display: flex;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .add-row input[type="text"] { flex: 1 1 220px; }
+
+  select#shopSelect {
+    background: var(--parchment);
+    color: var(--ink-text);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    padding: 0.85rem 0.75rem;
+    font-family: 'EB Garamond', serif;
+    font-size: 1.02rem;
+    flex: 1 1 180px;
+  }
+
+  button.add-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--gold-bright);
+    border: 1px solid var(--gold);
+    border-radius: 3px;
+    padding: 0 1.4rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  button.add-btn:hover { background: rgba(201,162,75,0.14); }
+
+  .empty-note {
+    font-style: italic;
+    color: var(--parchment-dim);
+    opacity: 0.7;
+    font-size: 0.95rem;
+    margin: 0.5rem 0 0;
+  }
+
+  .ledger-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .ledger-head .panel-title { margin: 0; }
+
+  .ledger-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .shop-group {
+    border-bottom: 1px solid var(--hair);
+    padding: 1rem 0;
+  }
+
+  .shop-group:last-child { border-bottom: none; }
+
+  .shop-group-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .shop-group-name {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 1.02rem;
+  }
+
+  .count-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--ink);
+    background: var(--gold-bright);
+    border-radius: 10px;
+    padding: 0.1rem 0.5rem;
+  }
+
+  ul.item-list { list-style: none; margin: 0 0 0.7rem; padding: 0; }
+
+  .item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--parchment-dim);
+    padding: 0.3rem 0;
+  }
+
+  .remove-btn {
+    background: none;
+    border: none;
+    color: var(--ember);
+    cursor: pointer;
+    font-size: 0.95rem;
+    line-height: 1;
+    padding: 0.1rem 0.3rem;
+  }
+
+  .remove-btn:hover { color: var(--gold-bright); }
+
+  footer {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--parchment-dim);
+    opacity: 0.55;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    section.panel { padding: 1.5rem; }
+    form { flex-direction: column; }
+    button.cast-btn, button.art-btn { padding: 0.85rem 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .node-dot { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Multiple Shops, One Incantation</p>
+    <h1>The Sideboard</h1>
+    <p class="subhead">Cast a single search across every shelf at once.</p>
+  </header>
+
+  <section class="panel" aria-labelledby="search-title">
+    <p class="panel-title" id="search-title">Search circle</p>
+
+    <a class="price-tag" id="priceTag" href="#" target="_blank" rel="noopener" hidden></a>
+    <div class="circle-wrap">
+      <svg class="circle-svg" viewBox="0 0 200 200" aria-hidden="true">
+        <circle class="rune-ring" cx="100" cy="100" r="88"></circle>
+        <circle class="rune-ring inner" cx="100" cy="100" r="70"></circle>
+        <path class="center-mark" d="M100 60 L100 140 M60 100 L140 100"></path>
+        <g id="nodeGroup"></g>
+      </svg>
+      <img id="cardArt" class="card-art" alt="" hidden>
+    </div>
+    <p class="art-status" id="artStatus" hidden></p>
+    <div class="print-picker" id="printPicker" hidden></div>
+
+    <form id="searchForm">
+      <input type="text" id="query" placeholder="Sheoldred, the Apocalypse" required autocomplete="off">
+      <button type="submit" class="art-btn" id="artBtn">Show card art</button>
+      <button type="button" class="cast-btn" id="castBtn">Cast search</button>
+    </form>
+    <p class="hint">Opens a tab per shop — allow pop-ups from this page if any are blocked.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="add-title">
+    <p class="panel-title" id="add-title">Add to your want list</p>
+    <div class="add-row">
+      <input type="text" id="cardName" placeholder="Sheoldred, the Apocalypse" autocomplete="off">
+      <select id="shopSelect"></select>
+      <button type="button" class="add-btn" id="addBtn">Add card</button>
+    </div>
+    <p class="hint">Log a card once you've found it at a shop — group by shop, then check out over there.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="ledger-title">
+    <div class="ledger-head">
+      <p class="panel-title" id="ledger-title">Your ledger</p>
+      <div class="ledger-actions">
+        <button type="button" class="add-btn" id="checkoutAllBtn">Checkout all</button>
+        <button type="button" class="add-btn" id="clearLedgerBtn">Clear ledger</button>
+      </div>
+    </div>
+    <div id="ledgerGroups"></div>
+  </section>
+
+  <footer>six shops watched over, one query at a time</footer>
+</div>
+
+<div class="art-lightbox" id="artLightbox" hidden>
+  <img id="artLightboxImg" alt="">
+</div>
+
+<script>
+  const shops = [
+    { name: "Dragon's Eye Singles", initials: "DE", hue: "#c9a24b",
+      search: q => `https://www.dragonseyesingles.com/products/search?q=${encodeURIComponent(q)}`,
+      cart: "https://www.dragonseyesingles.com/checkout/cart" },
+    { name: "Hawk's Nest Gaming", initials: "HN", hue: "#3f7566",
+      search: q => `https://hawksnestgaming.tcgplayerpro.com/search/products?q=${encodeURIComponent(q)}`,
+      cart: "https://cart.tcgplayer.com/shoppingcart?sf=5f72300f&ck=7ea621b626744eb18365ab87add13486" },
+    { name: "Super Games Inc", initials: "SG", hue: "#6b4e8e",
+      search: q => `https://www.supergamesinc.com/products/search?q=${encodeURIComponent(q)}`,
+      cart: "https://www.supergamesinc.com/checkout/cart" },
+    { name: "Peach State Games", initials: "PS", hue: "#b5482f",
+      search: q => `https://peachstategames.tcgplayerpro.com/search/products?q=${encodeURIComponent(q)}`,
+      cart: "https://cart.tcgplayer.com/shoppingcart?sf=49117adc&ck=2cd56f0b87654c7b82f011f4c0a18799" },
+    { name: "Giga-Bites Cafe", initials: "GB", hue: "#3b6fa6",
+      search: q => `https://roxiecards.crystalcommerce.com/products/search?q=${encodeURIComponent(q)}`,
+      cart: "https://roxiecards.crystalcommerce.com/checkout/index" },
+    { name: "Win Condition Games", initials: "WC", hue: "#6e7a3a",
+      search: q => `https://winconditiongames.tcgplayerpro.com/search/products?productLineName=Magic:+The+Gathering&q=${encodeURIComponent(q)}`,
+      cart: "https://winconditiongames.tcgplayerpro.com/tcgplayer/cart" }
+  ];
+
+  // populate the shop dropdown
+  const shopSelect = document.getElementById('shopSelect');
+  shops.forEach((shop, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = shop.name;
+    shopSelect.appendChild(opt);
+  });
+
+  // want-list state, persisted locally
+  const STORAGE_KEY = 'sideboard-want-list';
+  let wantList = [];
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    wantList = saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    wantList = [];
+  }
+
+  function saveWantList() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(wantList)); } catch (e) {}
+  }
+
+  function renderLedger() {
+    const container = document.getElementById('ledgerGroups');
+    container.innerHTML = '';
+
+    shops.forEach((shop, shopIndex) => {
+      const items = wantList.filter(item => item.shopIndex === shopIndex);
+
+      const group = document.createElement('div');
+      group.className = 'shop-group';
+
+      const head = document.createElement('div');
+      head.className = 'shop-group-head';
+      head.innerHTML = `
+        <span class="shop-group-name">
+          <span class="sigil" style="background:${shop.hue}">${shop.initials}</span>
+          ${shop.name}
+          ${items.length ? `<span class="count-badge">${items.length}</span>` : ''}
+        </span>
+        <a class="cart-tab" href="${shop.cart}" target="_blank" rel="noopener">Checkout</a>
+      `;
+      group.appendChild(head);
+
+      if (items.length) {
+        const list = document.createElement('ul');
+        list.className = 'item-list';
+        items.forEach(item => {
+          const li = document.createElement('li');
+          li.className = 'item-row';
+          li.innerHTML = `<span>${item.name}</span>`;
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'remove-btn';
+          removeBtn.setAttribute('aria-label', `Remove ${item.name}`);
+          removeBtn.textContent = '\u00d7';
+          removeBtn.addEventListener('click', () => {
+            wantList = wantList.filter(i => i.id !== item.id);
+            saveWantList();
+            renderLedger();
+          });
+          li.appendChild(removeBtn);
+          list.appendChild(li);
+        });
+        group.appendChild(list);
+      } else {
+        const empty = document.createElement('p');
+        empty.className = 'empty-note';
+        empty.textContent = 'Nothing added yet.';
+        group.appendChild(empty);
+      }
+
+      container.appendChild(group);
+    });
+  }
+
+  document.getElementById('addBtn').addEventListener('click', () => {
+    const nameInput = document.getElementById('cardName');
+    const name = nameInput.value.trim();
+    if (!name) return;
+    wantList.push({
+      id: Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+      name,
+      shopIndex: Number(shopSelect.value)
+    });
+    saveWantList();
+    renderLedger();
+    nameInput.value = '';
+    nameInput.focus();
+  });
+
+  document.getElementById('cardName').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('addBtn').click();
+    }
+  });
+
+  document.getElementById('checkoutAllBtn').addEventListener('click', () => {
+    const shopIndexesWithItems = [...new Set(wantList.map(item => item.shopIndex))];
+    if (!shopIndexesWithItems.length) return;
+    shopIndexesWithItems.forEach(i => window.open(shops[i].cart, '_blank'));
+  });
+
+  document.getElementById('clearLedgerBtn').addEventListener('click', () => {
+    if (!wantList.length) return;
+    wantList = [];
+    saveWantList();
+    renderLedger();
+  });
+
+  renderLedger();
+
+  // build casting-circle nodes at 6 positions around the ring
+  const nodeGroup = document.getElementById('nodeGroup');
+  const dots = [];
+  const R = 79;
+  shops.forEach((shop, i) => {
+    const angle = (Math.PI * 2 * i) / shops.length - Math.PI / 2;
+    const cx = 100 + R * Math.cos(angle);
+    const cy = 100 + R * Math.sin(angle);
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', cx);
+    circle.setAttribute('cy', cy);
+    circle.setAttribute('r', 7);
+    circle.setAttribute('class', 'node-dot');
+    nodeGroup.appendChild(circle);
+    dots.push(circle);
+  });
+
+  let openedTabs = [];
+  const form = document.getElementById('searchForm');
+  const castBtn = document.getElementById('castBtn');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function castSearch() {
+    const query = document.getElementById('query').value.trim();
+    if (!query) return;
+
+    openedTabs.forEach(tab => { try { tab.close(); } catch (e) {} });
+    openedTabs = [];
+    dots.forEach(d => d.classList.remove('lit'));
+
+    document.getElementById('cardName').value = query;
+
+    // open tabs immediately (synchronously, inside the user gesture) so popup blockers allow them
+    shops.forEach(shop => {
+      const tab = window.open(shop.search(query), '_blank');
+      openedTabs.push(tab);
+    });
+
+    // light up the ring as a visual confirmation the cast landed
+    castBtn.disabled = true;
+    if (prefersReduced) {
+      dots.forEach(d => d.classList.add('lit'));
+      setTimeout(() => { castBtn.disabled = false; }, 300);
+    } else {
+      dots.forEach((dot, i) => {
+        setTimeout(() => dot.classList.add('lit'), i * 90);
+      });
+      setTimeout(() => { castBtn.disabled = false; }, dots.length * 90 + 250);
+    }
+  }
+
+  castBtn.addEventListener('click', castSearch);
+
+  // --- card art lookup (Scryfall) ---
+  const priceTag = document.getElementById('priceTag');
+  const artBtn = document.getElementById('artBtn');
+  const cardArt = document.getElementById('cardArt');
+  const artStatus = document.getElementById('artStatus');
+  const printPicker = document.getElementById('printPicker');
+  const artLightbox = document.getElementById('artLightbox');
+  const artLightboxImg = document.getElementById('artLightboxImg');
+  let zoomSrc = '';
+  let currentPrintId = null;
+
+  function setArtStatus(text) {
+    if (text) {
+      artStatus.textContent = text;
+      artStatus.hidden = false;
+    } else {
+      artStatus.hidden = true;
+    }
+  }
+
+  function faceImagesFor(card) {
+    return card.image_uris || (card.card_faces && card.card_faces[0] && card.card_faces[0].image_uris);
+  }
+
+  function lowestPrice(card) {
+    const prices = card.prices || {};
+    const candidates = [prices.usd, prices.usd_foil, prices.usd_etched]
+      .filter(p => p !== null && p !== undefined)
+      .map(Number);
+    if (!candidates.length) return null;
+    return Math.min(...candidates);
+  }
+
+  function setPriceTag(card) {
+    const price = lowestPrice(card);
+    if (price === null) {
+      priceTag.textContent = 'No listed price';
+    } else {
+      priceTag.textContent = `From $${price.toFixed(2)}`;
+    }
+    priceTag.href = card.scryfall_uri || '#';
+    priceTag.hidden = false;
+  }
+
+  function showPrint(card, thumbEl) {
+    const faceImages = faceImagesFor(card);
+    if (!faceImages) return;
+    cardArt.src = faceImages.normal || faceImages.large || faceImages.small;
+    cardArt.alt = `${card.name} — ${card.set_name}`;
+    zoomSrc = faceImages.png || faceImages.large || faceImages.normal;
+    cardArt.hidden = false;
+    setArtStatus(null);
+    setPriceTag(card);
+    currentPrintId = card.id;
+
+    printPicker.querySelectorAll('.print-thumb').forEach(el => el.classList.remove('active'));
+    if (thumbEl) thumbEl.classList.add('active');
+  }
+
+  async function loadPrints(printsUri) {
+    printPicker.innerHTML = '';
+    printPicker.hidden = true;
+    try {
+      const res = await fetch(printsUri);
+      if (!res.ok) return;
+      const data = await res.json();
+      const prints = data.data || [];
+      if (prints.length < 2) return;
+
+      prints.forEach(card => {
+        const faceImages = faceImagesFor(card);
+        if (!faceImages) return;
+        const thumb = document.createElement('img');
+        thumb.className = 'print-thumb';
+        thumb.src = faceImages.small || faceImages.normal;
+        thumb.alt = card.set_name;
+        thumb.title = `${card.set_name}${card.collector_number ? ' #' + card.collector_number : ''}`;
+        thumb.addEventListener('click', () => showPrint(card, thumb));
+        if (card.id === currentPrintId) {
+          thumb.classList.add('active');
+          setPriceTag(card);
+        }
+        printPicker.appendChild(thumb);
+      });
+
+      if (printPicker.children.length) printPicker.hidden = false;
+    } catch (err) {
+      // prints strip is a nice-to-have — fail silently if it can't load
+    }
+  }
+
+  async function fetchCardArt() {
+    const query = document.getElementById('query').value.trim();
+    if (!query) { setArtStatus('Enter a card name first.'); return; }
+
+    artBtn.disabled = true;
+    setArtStatus('Summoning art…');
+    cardArt.hidden = true;
+    priceTag.hidden = true;
+    printPicker.hidden = true;
+    printPicker.innerHTML = '';
+
+    try {
+      const res = await fetch(`https://api.scryfall.com/cards/named?fuzzy=${encodeURIComponent(query)}`);
+      if (!res.ok) throw new Error('not found');
+      const data = await res.json();
+
+      const faceImages = faceImagesFor(data);
+      if (!faceImages) throw new Error('no image');
+
+      showPrint(data);
+
+      if (data.prints_search_uri) loadPrints(data.prints_search_uri);
+    } catch (err) {
+      setArtStatus(`No card art found for "${query}".`);
+      priceTag.hidden = true;
+    } finally {
+      artBtn.disabled = false;
+    }
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    fetchCardArt();
+  });
+
+  cardArt.addEventListener('click', () => {
+    if (!zoomSrc) return;
+    artLightboxImg.src = zoomSrc;
+    artLightboxImg.alt = cardArt.alt;
+    artLightbox.hidden = false;
+  });
+
+  artLightbox.addEventListener('click', () => { artLightbox.hidden = true; });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !artLightbox.hidden) artLightbox.hidden = true;
+  });
+</script>
+</body>
+</html>
