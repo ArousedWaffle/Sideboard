@@ -768,15 +768,22 @@
     return res.json();
   }
 
+  function extractCards(data) {
+    if (Array.isArray(data)) return data;
+    if (data && Array.isArray(data.items)) return data.items;
+    if (data && Array.isArray(data.data)) return data.data;
+    return [];
+  }
+
   async function findCards(query) {
     const { name, number } = parseQuery(query);
 
     let data = await fetchJson(`https://api.riftcodex.com/cards/name?exact=${encodeURIComponent(name)}`);
-    let cards = (data && data.data) || (Array.isArray(data) ? data : []);
+    let cards = extractCards(data);
 
     if (!cards.length) {
       data = await fetchJson(`https://api.riftcodex.com/cards/name?fuzzy=${encodeURIComponent(name)}`);
-      cards = (data && data.data) || (Array.isArray(data) ? data : []);
+      cards = extractCards(data);
     }
 
     if (!cards.length) throw new Error('not found');
